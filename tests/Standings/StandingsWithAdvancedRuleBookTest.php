@@ -9,6 +9,7 @@ use BallGame\Domain\Match\Match;
 use BallGame\Domain\RuleBook\AdvancedRuleBook;
 use BallGame\Domain\Standings\Standings;
 use BallGame\Domain\Team\Team;
+use BallGame\Infrastructure\MatchRepository;
 use PHPUnit\Framework\TestCase;
 
 class StandingsWithAdvancedRuleBookTest extends TestCase
@@ -21,8 +22,9 @@ class StandingsWithAdvancedRuleBookTest extends TestCase
     public function setUp()
     {
         $rulebook = new AdvancedRuleBook();
+        $repository = new MatchRepository();
 
-        $this->standings = new Standings('Advanced season 2019', $rulebook);
+        $this->standings = new Standings('Advanced season 2019', $rulebook, $repository);
     }
 
     public function testGetStandingReturnsSortedLeagueStandingsWhenTeamsAreTied()
