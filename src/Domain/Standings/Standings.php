@@ -27,15 +27,8 @@ class Standings
     public function getSortedStandings()
     {
         foreach ($this->matches as $match) {
-            if (!isset($this->teamPositions[spl_object_hash($match->getHomeTeam())])) {
-                $this->teamPositions[spl_object_hash($match->getHomeTeam())] = new TeamPosition($match->getHomeTeam());
-            }
-            $homeTeamPosition = $this->teamPositions[spl_object_hash($match->getHomeTeam())];
-
-            if (!isset($this->teamPositions[spl_object_hash($match->getAwayTeam())])) {
-                $this->teamPositions[spl_object_hash($match->getAwayTeam())] = new TeamPosition($match->getAwayTeam());
-            }
-            $awayTeamPosition = $this->teamPositions[spl_object_hash($match->getAwayTeam())];
+            $homeTeamPosition = $this->getHomeTeamPosition($match);
+            $awayTeamPosition = $this->getAwayTeamPosition($match);
 
             // Yay, home team won!
             if ($match->getHomeTeamPoints() > $match->getAwayTeamPoints()) {
@@ -77,5 +70,31 @@ class Standings
         }
 
         return $finalStandings;
+    }
+
+    /**
+     * @param $match
+     * @return TeamPosition
+     */
+    private function getHomeTeamPosition($match): TeamPosition
+    {
+        if (!isset($this->teamPositions[sha1($match->getHomeTeam()->getName())])) {
+            $this->teamPositions[sha1($match->getHomeTeam()->getName())] = new TeamPosition($match->getHomeTeam());
+        }
+        $homeTeamPosition = $this->teamPositions[sha1($match->getHomeTeam()->getName())];
+        return $homeTeamPosition;
+    }
+
+    /**
+     * @param $match
+     * @return TeamPosition
+     */
+    private function getAwayTeamPosition($match): TeamPosition
+    {
+        if (!isset($this->teamPositions[sha1($match->getAwayTeam()->getName())])) {
+            $this->teamPositions[sha1($match->getAwayTeam()->getName())] = new TeamPosition($match->getAwayTeam());
+        }
+        $awayTeamPosition = $this->teamPositions[sha1($match->getAwayTeam()->getName())];
+        return $awayTeamPosition;
     }
 }
