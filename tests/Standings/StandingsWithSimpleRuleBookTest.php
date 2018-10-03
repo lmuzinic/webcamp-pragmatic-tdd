@@ -6,6 +6,7 @@ namespace BallGame\Tests\Standings;
 
 
 use BallGame\Domain\Match\Match;
+use BallGame\Domain\RuleBook\SimpleRuleBook;
 use BallGame\Domain\Standings\Standings;
 use BallGame\Domain\Team\Team;
 use PHPUnit\Framework\TestCase;
